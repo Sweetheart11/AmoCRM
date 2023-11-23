@@ -22,5 +22,7 @@ FormController отвечает за отправку данных из форм
 
 ## Итог
 
+![Форма](https://github.com/Sweetheart11/AmoCRM/blob/b4fd981acb9a5840841dd8c289ebc7d32c6893b0/Screenshot_20231124_050343.png)
 
+![Сделка](https://github.com/Sweetheart11/AmoCRM/blob/b4fd981acb9a5840841dd8c289ebc7d32c6893b0/Screenshot_20231124_050438.png)
 
