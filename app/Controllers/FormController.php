@@ -5,16 +5,16 @@ declare(strict_types = 1);
 namespace App\Controllers;
 
 use App\DataObjects\UserProfileDTO;
-use App\Services\AmoCRMAuthService;
-use App\Services\AmoCRMCurlService;
+use App\Contracts\CRMAuthServiceInterface;
+use App\Contracts\CRMCurlServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class FormController
 {
     public function __construct(
-        private readonly AmoCRMAuthService $amoCRMAuthService,
-        private readonly AmoCRMCurlService $curlService,
+        private readonly CRMAuthServiceInterface $authService,
+        private readonly CRMCurlServiceInterface $curlService,
     )
     {
     }
@@ -30,7 +30,7 @@ class FormController
             (int) $body['price'] ?? "",
         );
 
-        $access_token = $this->amoCRMAuthService->refreshAccess();
+        $access_token = $this->authService->refreshAccess();
 
         $body = $this->curlService->sendLead($userProfile, $access_token);
 

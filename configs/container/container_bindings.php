@@ -3,23 +3,25 @@
 declare(strict_types = 1);
 
 use App\Config;
+use Slim\Views\Twig;
+use function DI\create;
+use Doctrine\ORM\ORMSetup;
 use App\Enum\AppEnvironment;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMSetup;
-use function DI\create;
-use Psr\Container\ContainerInterface;
-use Slim\Views\Twig;
-use Symfony\Bridge\Twig\Extension\AssetExtension;
-use Symfony\Component\Asset\Package;
-use Symfony\Component\Asset\Packages;
-use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
-use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
-use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
-
-use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
 use Twig\Extra\Intl\IntlExtension;
 use App\Services\AmoCRMAuthService;
 use App\Services\AmoCRMCurlService;
+use Symfony\Component\Asset\Package;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Asset\Packages;
+use App\Contracts\CRMAuthServiceInterface;
+
+use App\Contracts\CRMCurlServiceInterface;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
+use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
+use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
+use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 
 return [
     Config::class                 => create(Config::class)->constructor(require CONFIG_PATH . '/app.php'),
@@ -72,4 +74,10 @@ return [
             $container->get(AmoCRMCurlService::class),
         );
     },
+    CRMAuthServiceInterface::class => fn(ContainerInterface $container) => $container->get(
+        AmoCRMAuthService::class,
+    ),
+    CRMCurlServiceInterface::class => fn(ContainerInterface $container) => $container->get(
+        AmoCRMCurlService::class,
+    ),
 ];
